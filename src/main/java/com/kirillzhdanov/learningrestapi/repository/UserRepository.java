@@ -14,8 +14,8 @@ public class UserRepository {
     }
 
     public User getByLogin(String login) {
-        User us = new User("login test","1234",0);
-        //return this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
+        User us = this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
+         //return    this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
         return us;
     }
 
