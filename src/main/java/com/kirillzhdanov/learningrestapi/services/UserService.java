@@ -2,6 +2,7 @@ package com.kirillzhdanov.learningrestapi.services;
 
 import com.kirillzhdanov.learningrestapi.models.User;
 import com.kirillzhdanov.learningrestapi.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 @Service
 public class UserService implements UserDetailsService {
+    @Autowired
     private UserRepository repository;
 
     public UserService(UserRepository repository) {
@@ -19,11 +21,11 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAll() {
-        return this.repository.getAll();
+        return this.repository.findAll();
     }
 
     public User getByLogin(String login) {
-        return this.repository.getByLogin(login);
+        return this.repository.findBylogin(login);
     }
 
     @Override
