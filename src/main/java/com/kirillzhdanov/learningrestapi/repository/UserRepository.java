@@ -10,11 +10,13 @@ public class UserRepository {
     private List<User> users;
 
     public UserRepository() {
-        this.users = List.of(new User("Slave", "1234", 0), new User("Whore", "12345", 2));
+        this.users = List.of(new User("Slava", "1234", 0), new User("Anon", "12345", 2));
     }
 
     public User getByLogin(String login) {
-        return this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
+        User us = new User("login test","1234",0);
+        //return this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
+        return us;
     }
 
     public List<User> getAll() {
