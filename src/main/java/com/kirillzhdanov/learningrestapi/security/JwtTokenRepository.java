@@ -1,12 +1,17 @@
 package com.kirillzhdanov.learningrestapi.security;
 
 
+import com.kirillzhdanov.learningrestapi.models.UsedJWSTokens;
+import com.kirillzhdanov.learningrestapi.models.User;
+import com.kirillzhdanov.learningrestapi.repository.UsedJWSTokensRepository;
 import com.kirillzhdanov.learningrestapi.repository.UserRepository;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Security;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -30,6 +36,9 @@ public class JwtTokenRepository implements CsrfTokenRepository {
     private String secret;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UsedJWSTokensRepository usedJWSTokensRepository;
+
     public JwtTokenRepository() {
         this.secret = "springrest";
     }
@@ -41,18 +50,27 @@ public class JwtTokenRepository implements CsrfTokenRepository {
         Date exp = Date.from(LocalDateTime.now().plusMinutes(30)
                 .atZone(ZoneId.systemDefault()).toInstant());
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            User user = userRepository.findBylogin(auth.getName());
+        }
+
         String token = "";
         try {
             token = Jwts.builder()
                     .setId(id)
                     .setIssuedAt(now)
 //                    .setHeaderParam("login",userRepository.getByLogin("Slava").getLogin())
-//                    .setHeaderParam("password",userRepository.getByLogin("Slava").getPassword())
+                    //  .setHeaderParam("password",userRepository.findBylogin(auth.getName()).getPassword())
                     .setIssuer("test")
                     .setNotBefore(now)
                     .setExpiration(exp)
                     .signWith(SignatureAlgorithm.HS256, secret)
                     .compact();
+//            UsedJWSTokens jwts = usedJWSTokensRepository.findByfullToken(token);
+//            if(jwts==null) //(String tokenId, String fullToken, Long now, Long exp)
+//                jwts= new UsedJWSTokens(id,now,exp,token);
+//            usedJWSTokensRepository.save(jwts);
         } catch (JwtException e) {
             e.printStackTrace();
             //ignore

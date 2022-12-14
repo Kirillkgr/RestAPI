@@ -20,9 +20,9 @@ public class testController {
     }
     @PostConstruct
     public void createTestData(){
-char a=' ';
+char a='а';
 String testWord ="";
-        for (int i = 0; i < 255; i++) {
+        for (int i = 0; i < 8; i++) {
             Random random = new Random();
 
             User us = new User(testWord+=a++,String.valueOf(random.nextInt(1654465) + 1567),i);
