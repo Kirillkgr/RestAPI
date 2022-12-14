@@ -28,4 +28,44 @@ public class UsedJWSTokens {
     private Date now;
     private Date exp;
     private String fullToken;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    public Date getNow() {
+        return now;
+    }
+
+    public void setNow(Date now) {
+        this.now = now;
+    }
+
+    public Date getExp() {
+        return exp;
+    }
+
+    public void setExp(Date exp) {
+        this.exp = exp;
+    }
+
+    public String getFullToken() {
+        return fullToken;
+    }
+
+    public void setFullToken(String fullToken) {
+        this.fullToken = fullToken;
+    }
 }
