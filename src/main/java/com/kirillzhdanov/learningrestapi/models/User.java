@@ -5,18 +5,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class Users {
-    public Users(String login, String password, int count) {
+public class User {
+    public User(String login, String password, String passwordConfirm, int count) {
         this.login = login;
         this.password = password;
         this.count = count;
+        this.passwordConfirm=passwordConfirm;
     }
-    public Users(){}
+    public User(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
     private String password;
+    private String passwordConfirm;
     private int count;
 
     public Long getId() {
@@ -41,6 +43,14 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public int getCount() {

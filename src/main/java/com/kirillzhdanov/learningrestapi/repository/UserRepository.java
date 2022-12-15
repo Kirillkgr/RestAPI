@@ -1,27 +1,27 @@
 package com.kirillzhdanov.learningrestapi.repository;
 
-import com.kirillzhdanov.learningrestapi.models.Users;
+import com.kirillzhdanov.learningrestapi.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 //@Repository
-public interface UserRepository extends JpaRepository<Users,Long> {
-//    private List<Users> users;
-//
-//    public UserRepository() {
-//        this.users = List.of(new Users("Slava", "1234", 0), new Users("Anon", "12345", 2));
-//    }
-//    public Users getByLogin(String login) {
-//        Users us = this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
-//         //return    this.users.stream().filter(user -> login.equals(user.getLogin())).findFirst().orElse(null);
-//        return us;
-//    }
-//    public List<Users> getAll() {
-//        return this.users;
-//    }
+public interface UserRepository extends JpaRepository<User,Long> {
 
 
-    Users findBylogin(String login);
-     List<Users> findAll();
+    User findBylogin(String login);
+     List<User> findAll();
+    static List<User> getUsersList(UserRepository  userRepository) {
+        List<User> ListAllData = userRepository.findAll();
+        List<User> ReverseListAllData = new ArrayList<>();
+        ListIterator<User> itr = ListAllData.listIterator(ListAllData.size());
+        ReverseListAllData.clear();
+        while (itr.hasPrevious()) {
+            ReverseListAllData.add(itr.previous());
+        }
+        ListAllData.clear();
+        return ReverseListAllData;
+    }
 }

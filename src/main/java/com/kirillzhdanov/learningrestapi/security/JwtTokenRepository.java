@@ -2,18 +2,15 @@ package com.kirillzhdanov.learningrestapi.security;
 
 
 import com.kirillzhdanov.learningrestapi.models.UsedJWSTokens;
-import com.kirillzhdanov.learningrestapi.models.Users;
+import com.kirillzhdanov.learningrestapi.models.User;
 import com.kirillzhdanov.learningrestapi.repository.UsedJWSTokensRepository;
 import com.kirillzhdanov.learningrestapi.repository.UserRepository;
-import com.kirillzhdanov.learningrestapi.services.UserService;
+import com.kirillzhdanov.learningrestapi.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
@@ -39,7 +36,7 @@ public class JwtTokenRepository implements CsrfTokenRepository {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    UserService service;
+    UserDetailsServiceImpl userDetailsService;
     @Autowired
     UsedJWSTokensRepository usedJWSTokensRepository;
 
@@ -53,8 +50,8 @@ public class JwtTokenRepository implements CsrfTokenRepository {
         Date now = new Date();
         Date exp = Date.from(LocalDateTime.now().plusMinutes(30)
                 .atZone(ZoneId.systemDefault()).toInstant());
-        Users us = null;
-        String log = service.getLogin();
+        User us = null;
+        String log = userDetailsService.getLogin();
         if (userRepository.findBylogin(log) != null)
             us = userRepository.findBylogin(log);
 

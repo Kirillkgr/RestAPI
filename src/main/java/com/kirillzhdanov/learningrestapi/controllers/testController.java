@@ -1,7 +1,8 @@
 package com.kirillzhdanov.learningrestapi.controllers;
 
-import com.kirillzhdanov.learningrestapi.models.Users;
+import com.kirillzhdanov.learningrestapi.models.User;
 import com.kirillzhdanov.learningrestapi.repository.UserRepository;
+import com.kirillzhdanov.learningrestapi.services.UserDetailsServiceImpl;
 import com.kirillzhdanov.learningrestapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,8 +16,9 @@ import java.util.Random;
 public class testController {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
-    UserService service;
+    UserService userService;
 
     @GetMapping("test")
     public String getTest() {
@@ -26,7 +28,7 @@ public class testController {
     @GetMapping("/logout")
     public String Logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
-        service.setLogin("");
+        //userDetailsService.setLogin("");
         return "redirect: /login";
     }
 
@@ -36,9 +38,9 @@ public class testController {
         String testWord = "";
         for (int i = 0; i < 8; i++) {
             Random random = new Random();
-
-            Users us = new Users(testWord += a++, String.valueOf(random.nextInt(1654465) + 1567), i);
-            userRepository.save(us);
+String pass = String.valueOf(random.nextInt(1654465) + 1567);
+            User us = new User(testWord += a++, pass,pass, i);
+            userService.save(us);
             random = null;
         }
     }
