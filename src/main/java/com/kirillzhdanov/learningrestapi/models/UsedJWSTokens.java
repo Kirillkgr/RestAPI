@@ -12,11 +12,12 @@ public class UsedJWSTokens {
     public UsedJWSTokens() {
     }
 
-    public UsedJWSTokens(String tokenId, Date now, Date exp, String fullToken) {
+    public UsedJWSTokens(String tokenId, Date now, Date exp, String fullToken, String login) {
         this.tokenId = tokenId;
         this.now = now;
         this.exp = exp;
         this.fullToken = fullToken;
+        this.login = login;
     }
 
     @Id
@@ -25,9 +26,12 @@ public class UsedJWSTokens {
     private Long id;
 
     private String tokenId;
+
     private Date now;
     private Date exp;
+    @Column(columnDefinition = "TEXT")
     private String fullToken;
+    private String login;
 
     public Long getId() {
         return id;

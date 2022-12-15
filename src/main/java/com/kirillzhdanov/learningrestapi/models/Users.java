@@ -1,21 +1,17 @@
 package com.kirillzhdanov.learningrestapi.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import net.bytebuddy.asm.Advice;
-
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "users")
-public class User {
-    public User( String login, String password, int count) {
+public class Users {
+    public Users(String login, String password, int count) {
         this.login = login;
         this.password = password;
         this.count = count;
     }
-    public User(){}
+    public Users(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
