@@ -19,7 +19,7 @@ public class UserService implements UserDetailsService {
 
     public   String getLogin() {
         String logina = login;
-       login = "";
+//       login = "";
         return logina;
     }
 
