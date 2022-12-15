@@ -3,41 +3,51 @@ package com.kirillzhdanov.learningrestapi;
 import com.kirillzhdanov.learningrestapi.security.JwtCsrfFilter;
 import com.kirillzhdanov.learningrestapi.security.JwtTokenRepository;
 import com.kirillzhdanov.learningrestapi.services.UserDetailsServiceImpl;
-import com.kirillzhdanov.learningrestapi.services.UserService;
-import com.kirillzhdanov.learningrestapi.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsServiceImpl service;
+    private final UserDetailsServiceImpl service;
+
+    private final JwtTokenRepository jwtTokenRepository;
+
+    private final HandlerExceptionResolver resolver;
+    @Value("${secretKey.secretPass}")
+    private String secretWord;
 
     @Autowired
-    private JwtTokenRepository jwtTokenRepository;
+    public SpringSecurityConfig(UserDetailsServiceImpl service, JwtTokenRepository jwtTokenRepository, @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+        this.service = service;
+        this.jwtTokenRepository = jwtTokenRepository;
+        this.resolver = resolver;
+    }
 
-    @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
+//    @Bean
+//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
+
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public Pbkdf2PasswordEncoder pbkdf2PasswordEncoder() {
+        return new Pbkdf2PasswordEncoder(secretWord, 25, 512);
     }
 
     @Override

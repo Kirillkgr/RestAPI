@@ -2,7 +2,6 @@ package com.kirillzhdanov.learningrestapi.controllers;
 
 import com.kirillzhdanov.learningrestapi.models.User;
 import com.kirillzhdanov.learningrestapi.repository.UserRepository;
-import com.kirillzhdanov.learningrestapi.services.UserDetailsServiceImpl;
 import com.kirillzhdanov.learningrestapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,12 +35,11 @@ public class testController {
     public void createTestData() {
         char a = 'а';
         String testWord = "";
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 255; i++) {
             Random random = new Random();
-String pass = String.valueOf(random.nextInt(1654465) + 1567);
-            User us = new User(testWord += a++, pass,pass, i);
+            String pass = String.valueOf(random.nextInt(1654465) + 1567);
+            User us = new User(testWord += a++, pass, pass, i);
             userService.save(us);
-            random = null;
         }
     }
 }
