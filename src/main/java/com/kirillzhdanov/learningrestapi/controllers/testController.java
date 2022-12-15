@@ -34,12 +34,21 @@ public class testController {
     @PostConstruct
     public void createTestData() {
         char a = 'а';
+        int count = 0;
         String testWord = "";
         for (int i = 0; i < 255; i++) {
             Random random = new Random();
             String pass = String.valueOf(random.nextInt(1654465) + 1567);
             User us = new User(testWord += a++, pass, pass, i);
             userService.save(us);
+            if(i==254){
+                count++;
+                i=0;
+                testWord="";
+            }
+            if(count>10){
+                i=256;
+            }
         }
     }
 }

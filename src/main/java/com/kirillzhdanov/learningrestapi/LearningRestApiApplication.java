@@ -11,5 +11,4 @@ public class LearningRestApiApplication {
 
         // Test comit to git
     }
-
 }
