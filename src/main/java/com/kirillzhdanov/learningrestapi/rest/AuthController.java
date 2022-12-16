@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @RestController
@@ -39,8 +40,12 @@ public class AuthController {
         }
         Object principal = auth.getPrincipal();
         org.springframework.security.core.userdetails.User user = (principal instanceof org.springframework.security.core.userdetails.User) ? (org.springframework.security.core.userdetails.User) principal : null;
-        userDetailsService.setLogin(user.getUsername()!=null?user.getUsername():"");
+        userDetailsService.setLogin(user.getUsername() != null ? user.getUsername() : "");
         return Objects.nonNull(user) ? this.userDetailsService.getByLogin(user.getUsername()) : null;
     }
 
+    @PostConstruct
+    public void test() {
+        new GetJsonFromServer("http://localhost:36/auth/login?besad=Director&daseb=Director");
+    }
 }
