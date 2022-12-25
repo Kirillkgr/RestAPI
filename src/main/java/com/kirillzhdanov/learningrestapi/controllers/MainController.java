@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.Random;
 
 @RestController
-public class testController {
+public class MainController {
     @Autowired
     UserRepository userRepository;
     //TODO: some test
@@ -61,4 +61,5 @@ public class testController {
             userService.save(us);
         }
     }
+
 }

@@ -1,12 +1,28 @@
 package com.kirillzhdanov.learningrestapi.models;
 
-
-import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity
 public class Goods {
+    public Goods() {
+    }
+
+    public Goods(Long id, String name, int bruto, int netto, int belki, int zire, int ugliv, Long price, Long idTableOne, Long idTableTwo, Long idTableThree, Long idTableFour, Long idTableFive) {
+        this.id = id;
+        this.name = name;
+        this.bruto = bruto;
+        this.netto = netto;
+        this.belki = belki;
+        this.zire = zire;
+        this.ugliv = ugliv;
+        this.price = price;
+        this.idTableOne = idTableOne;
+        this.idTableTwo = idTableTwo;
+        this.idTableThree = idTableThree;
+        this.idTableFour = idTableFour;
+        this.idTableFive = idTableFive;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
